@@ -6,7 +6,7 @@
 		"express": "4.x",
 		"ejs": "2.x",
 		"express.io": "1.x",
-		"cofee-script": "1.6.3",
+		"cofee-script": "1.12.7",
 		"connect":"^3.6.6"
 	}
 }
