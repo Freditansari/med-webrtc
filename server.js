@@ -13,8 +13,7 @@ It is for educational purposes only, and any other use is done at your own risk.
 
 var express = require('express.io');
 var app = express();
-var fs = require('fs')
-var https = require('https')
+
 app.http().io();
 var PORT = 3000;
 console.log('server started on port ' + PORT);

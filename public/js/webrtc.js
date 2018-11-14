@@ -50,7 +50,9 @@ io.on('signal', function(data) {
 		document.querySelector("#videoPage").style.display = 'block';
 	}
 	else if (data.user_type == 'signaling') {
-		if (!rtcPeerConn) startSignaling();
+		if (!rtcPeerConn){
+			startSignaling();
+		} 
 		var message = JSON.parse(data.user_data);
 		if (message.sdp) {
 			rtcPeerConn.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
@@ -68,6 +70,7 @@ io.on('signal', function(data) {
 
 function startSignaling() {
 	console.log("starting signaling...");
+	console.log(myUserType);
 	rtcPeerConn = new webkitRTCPeerConnection(configuration);
 	
 	// send any ice candidates to the other peer
@@ -84,23 +87,34 @@ function startSignaling() {
 	};
 	
 	// once remote stream arrives, show it in the main video element
-	rtcPeerConn.onaddstream = function (evt) {
-		console.log("going to add their stream...");
-		mainVideoArea.src = URL.createObjectURL(evt.stream);
-	};
+	if (myUserType=="patient") {
+		rtcPeerConn.onaddstream = function (evt) {
+			console.log("going to add their stream...");
+			mainVideoArea.src = URL.createObjectURL(evt.stream);
+		};
+		
+	} else {
+		console.log(`you're the doctor no need to show your face`)
+		
+	}
 	
-	// get a local stream, show it in our video tag and add it to be sent
-	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-	navigator.getUserMedia({
-		'audio': false,
-		'video': true
-	}, function (stream) {
-		console.log("going to display my stream...");
-		smallVideoArea.src = URL.createObjectURL(stream);
-		rtcPeerConn.addStream(stream);
-	}, logError);
+	
+	// get a local stream, show it in our video tag and add it to be sent'
+			navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+		navigator.getUserMedia({
+			'audio': false,
+			'video': true
+		}, function (stream) {
+				console.log("going to display my stream...");
+				smallVideoArea.src = URL.createObjectURL(stream);
+				rtcPeerConn.addStream(stream);
+		
+		}, logError);
+		
+	
 			  
 }
+
 
 function sendLocalDesc(desc) {
 	rtcPeerConn.setLocalDescription(desc, function () {
