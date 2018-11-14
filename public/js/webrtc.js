@@ -106,6 +106,10 @@ function startSignaling() {
 		
 	} else {
 		console.log("Youre the doctor.. no need to show face");
+		rtcPeerConn.onaddstream = function (evt) {
+			console.log("going to add their stream...");
+			mainVideoArea.src = URL.createObjectURL(evt.stream);
+		};
 		
 	}
 		
