@@ -87,7 +87,7 @@ function startSignaling() {
 	};
 	
 	// once remote stream arrives, show it in the main video element
-	if (myUserType=="doctor") {
+	if (myUserType=="patient") {
 		rtcPeerConn.onaddstream = function (evt) {
 			console.log("going to add their stream...");
 			mainVideoArea.src = URL.createObjectURL(evt.stream);
