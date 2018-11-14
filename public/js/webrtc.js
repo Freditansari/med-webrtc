@@ -87,16 +87,19 @@ function startSignaling() {
 	};
 	
 	// once remote stream arrives, show it in the main video element
-	if (myUserType=="patient") {
+	if (myUserType=="doctor") {
 		rtcPeerConn.onaddstream = function (evt) {
 			console.log("going to add their stream...");
 			mainVideoArea.src = URL.createObjectURL(evt.stream);
 		};
 		
 	} else {
-		console.log(`you're the doctor no need to show your face`)
+		console.log("Youre the doctor.. no need to show face");
 		
 	}
+		
+		
+
 	
 	
 	// get a local stream, show it in our video tag and add it to be sent'
